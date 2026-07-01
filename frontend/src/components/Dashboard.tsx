@@ -2,9 +2,9 @@ import { useState } from 'react';
 import { motion, AnimatePresence, type Transition } from 'framer-motion';
 import ItemCard, { type TransactionState, type ItemCategory } from './ItemCard';
 
-type TabType = 'My Stash' | 'My Wishlist';
+export type TabType = 'My Stash' | 'My Wishlist';
 
-interface Item {
+export interface Item {
   id: string;
   title: string;
   category: ItemCategory;
@@ -12,28 +12,18 @@ interface Item {
   owner: string;
 }
 
-const mockStash: Item[] = [
-  { id: '1', title: 'Arduino Uno R3 Kit', category: 'Hardware', state: 'Temporary Borrow', owner: 'Alex M.' },
-  { id: '2', title: 'Calculus Early Transcendentals', category: 'Academic', state: 'Permanent Swap', owner: 'Sarah J.' },
-  { id: '3', title: 'Organic Chemistry Model Kit', category: 'Lab', state: 'Free Giveaway', owner: 'Dr. Smith' },
-  { id: '4', title: 'Raspberry Pi 4 (4GB)', category: 'Hardware', state: 'Permanent Swap', owner: 'Tech Club' },
-  { id: '5', title: 'Physics 101 Notes (A+)', category: 'Academic', state: 'Free Giveaway', owner: 'Elena V.' },
-];
-
-const mockWishlist: Item[] = [
-  { id: '6', title: 'Digital Multimeter', category: 'Hardware', state: 'Temporary Borrow', owner: 'EE Dept' },
-  { id: '7', title: 'Lab Coat (Size M)', category: 'Lab', state: 'Permanent Swap', owner: 'Chem Lab' },
-];
-
 interface DashboardProps {
+  stashItems: Item[];
+  wishlistItems: Item[];
   onItemClick: (item: Item) => void;
 }
 
-export default function Dashboard({ onItemClick }: DashboardProps) {
+export default function Dashboard({ stashItems, wishlistItems, onItemClick }: DashboardProps) {
   const [activeTab, setActiveTab] = useState<TabType>('My Stash');
 
   const tabs: TabType[] = ['My Stash', 'My Wishlist'];
-  const activeItems = activeTab === 'My Stash' ? mockStash : mockWishlist;
+  const activeItems = activeTab === 'My Stash' ? stashItems : wishlistItems;
+
 
   const sliceSpring: Transition = { type: "spring", stiffness: 500, damping: 35, mass: 0.8 };
 
